@@ -10,8 +10,11 @@ from itertools import groupby
 import re
 
 # MongoDB Client URIs
-FHIR_genomics_data_client_uri = "mongodb+srv://download:download@cluster0.8ianr.mongodb.net/FHIRGenomicsData"
-utilities_data_client_uri = "mongodb+srv://download:download@cluster0.8ianr.mongodb.net/UtilitiesData"
+# FHIR_genomics_data_client_uri = "mongodb+srv://download:download@cluster0.8ianr.mongodb.net/FHIRGenomicsData"
+# utilities_data_client_uri = "mongodb+srv://download:download@cluster0.8ianr.mongodb.net/UtilitiesData"
+FHIR_genomics_data_client_uri = "mongodb://127.0.0.1:27017/FHIRGenomicsData"
+utilities_data_client_uri = "mongodb://127.0.0.1:27017/UtilitiesData"
+
 
 # MongoDB Clients
 client = pymongo.MongoClient(FHIR_genomics_data_client_uri)
@@ -184,6 +187,7 @@ def get_spdi_elements(response_object):
 
 
 def validate_subject(patient_id):
+    print("Validating data ....")
     if not patients_db.find_one({"patientID": patient_id}):
         abort(400, f"Patient ({patient_id}) not found.")
 

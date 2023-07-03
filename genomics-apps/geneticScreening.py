@@ -16,15 +16,15 @@ st.set_page_config(
 )
 
 
-@st.cache
+@st.cache_data
 def findPopulationDxImplications(conditionCode):
-    url = 'https://fhir-gen-ops.herokuapp.com/population-operations/phenotype-operations/$find-population-dx-implications?conditions='+conditionCode+'&includePatientList=true'
+    url = 'http://127.0.0.1:5000/population-operations/phenotype-operations/$find-population-dx-implications?conditions='+conditionCode+'&includePatientList=true'
     headers = {'Accept': 'application/json'}
     r = requests.get(url, headers=headers)
     return r.json()
 
 
-@st.cache
+@st.cache_data
 def findSubjectDxImplications(subject, conditionCode):
     url = 'https://fhir-gen-ops.herokuapp.com/subject-operations/phenotype-operations/$find-subject-dx-implications?subject='+subject+'&conditions='+conditionCode
     headers = {'Accept': 'application/json'}

@@ -13,7 +13,7 @@ st.set_page_config(
 )
 
 
-@st.cache
+@st.cache_data
 def findSubjectHaplotypes(subject):
     # CYP2B6, CYP2C9, CYP2C19, CYP2D6, CYP3A5, NUDT15, SLCO1B1, TPMP, UGT1A1
     url = 'https://fhir-gen-ops.herokuapp.com/subject-operations/genotype-operations/$find-subject-haplotypes?subject='+subject + \
@@ -23,7 +23,7 @@ def findSubjectHaplotypes(subject):
     return r.json()
 
 
-@st.cache
+@st.cache_data
 def findSubjectTxImplications(subject, haplotypes):
     url = 'https://fhir-gen-ops.herokuapp.com/subject-operations/phenotype-operations/$find-subject-tx-implications?subject='+subject+'&haplotypes='+haplotypes
     headers = {'Accept': 'application/json'}
