@@ -8,12 +8,22 @@ import pymongo
 from flask import abort
 from itertools import groupby
 import re
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # MongoDB Client URIs
 # FHIR_genomics_data_client_uri = "mongodb+srv://download:download@cluster0.8ianr.mongodb.net/FHIRGenomicsData"
 # utilities_data_client_uri = "mongodb+srv://download:download@cluster0.8ianr.mongodb.net/UtilitiesData"
-FHIR_genomics_data_client_uri = "mongodb://127.0.0.1:27017/FHIRGenomicsData"
-utilities_data_client_uri = "mongodb://127.0.0.1:27017/UtilitiesData"
+
+# FHIR_genomics_data_client_uri = "mongodb://127.0.0.1:27017/FHIRGenomicsData"
+# utilities_data_client_uri = "mongodb://127.0.0.1:27017/UtilitiesData"
+
+fhir_uri = "mongodb://{}:{}@{}:27017/FHIRGenomicsData?tls=true&tlsCAFile=global-bundle.pem".format(os.environ["DB_USER"], os.environ["DB_PASSWORD"], os.environ["DB_HOST"])
+utility_uri = "mongodb://{}:{}@{}:27017/UtilitiesData?tls=true&tlsCAFile=global-bundle.pem".format(os.environ["DB_USER"], os.environ["DB_PASSWORD"], os.environ["DB_HOST"])
+FHIR_genomics_data_client_uri = fhir_uri
+utilities_data_client_uri = utility_uri
 
 
 # MongoDB Clients

@@ -2,6 +2,12 @@ import streamlit as st
 import pandas as pd
 import requests
 from st_aggrid import AgGrid
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ENVNAME = os.environ['HOST']
 
 st.set_page_config(
     page_title="Simple App",
@@ -14,8 +20,9 @@ st.set_page_config(
 @st.cache_data
 def findSubjectVariants(subject, range):
     print("Hello....")
-    url = 'http://127.0.0.1:5000/subject-operations/genotype-operations/$find-subject-variants?subject='+subject+'&ranges='+range+'&includeVariants=true'
+    url = ENVNAME + '/subject-operations/genotype-operations/$find-subject-variants?subject='+subject+'&ranges='+range+'&includeVariants=true'
     headers = {'Accept': 'application/json'}
+    print(url)
     return requests.get(url, headers=headers)
 
 

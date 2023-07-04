@@ -2,6 +2,12 @@ import streamlit as st
 import pandas as pd
 import requests
 from st_aggrid import AgGrid
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ENVNAME = os.environ['HOST']
 
 st.set_page_config(
     page_title="Genetic Screening",
@@ -18,7 +24,7 @@ st.set_page_config(
 
 @st.cache_data
 def findPopulationDxImplications(conditionCode):
-    url = 'http://127.0.0.1:5000/population-operations/phenotype-operations/$find-population-dx-implications?conditions='+conditionCode+'&includePatientList=true'
+    url = ENVNAME + '/population-operations/phenotype-operations/$find-population-dx-implications?conditions='+conditionCode+'&includePatientList=true'
     headers = {'Accept': 'application/json'}
     r = requests.get(url, headers=headers)
     return r.json()
@@ -26,7 +32,7 @@ def findPopulationDxImplications(conditionCode):
 
 @st.cache_data
 def findSubjectDxImplications(subject, conditionCode):
-    url = 'https://fhir-gen-ops.herokuapp.com/subject-operations/phenotype-operations/$find-subject-dx-implications?subject='+subject+'&conditions='+conditionCode
+    url = ENVNAME + '/subject-operations/phenotype-operations/$find-subject-dx-implications?subject='+subject+'&conditions='+conditionCode
     headers = {'Accept': 'application/json'}
     r = requests.get(url, headers=headers)
     return r.json()

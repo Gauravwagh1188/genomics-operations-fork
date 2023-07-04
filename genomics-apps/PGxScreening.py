@@ -4,6 +4,12 @@ import requests
 import csv
 import random
 from st_aggrid import GridOptionsBuilder, AgGrid, JsCode
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ENVNAME = os.environ['HOST']
 
 st.set_page_config(
     page_title="PGx Screening",
@@ -16,7 +22,7 @@ st.set_page_config(
 @st.cache_data
 def findSubjectHaplotypes(subject):
     # CYP2B6, CYP2C9, CYP2C19, CYP2D6, CYP3A5, NUDT15, SLCO1B1, TPMP, UGT1A1
-    url = 'https://fhir-gen-ops.herokuapp.com/subject-operations/genotype-operations/$find-subject-haplotypes?subject='+subject + \
+    url = ENVNAME + '/subject-operations/genotype-operations/$find-subject-haplotypes?subject='+subject + \
         '&genes=http://www.genenames.org/geneId|HGNC:2615,http://www.genenames.org/geneId|HGNC:2623,http://www.genenames.org/geneId|HGNC:2621,http://www.genenames.org/geneId|HGNC:2625,http://www.genenames.org/geneId|HGNC:2638,http://www.genenames.org/geneId|HGNC:23063,http://www.genenames.org/geneId|HGNC:10959,http://www.genenames.org/geneId|HGNC:12014,http://www.genenames.org/geneId|HGNC:12530'
     headers = {'Accept': 'application/json'}
     r = requests.get(url, headers=headers)
@@ -25,7 +31,7 @@ def findSubjectHaplotypes(subject):
 
 @st.cache_data
 def findSubjectTxImplications(subject, haplotypes):
-    url = 'https://fhir-gen-ops.herokuapp.com/subject-operations/phenotype-operations/$find-subject-tx-implications?subject='+subject+'&haplotypes='+haplotypes
+    url = ENVNAME + '/subject-operations/phenotype-operations/$find-subject-tx-implications?subject='+subject+'&haplotypes='+haplotypes
     headers = {'Accept': 'application/json'}
     r = requests.get(url, headers=headers)
     return r.json()
